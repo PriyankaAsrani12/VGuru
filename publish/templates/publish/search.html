@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous"> {% comment %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css%22%3E"> {% endcomment %}
+    <title>INST_publications</title>
+    <style>
+        /* width */
+        
+         ::-webkit-scrollbar {
+            width: 3px;
+            /*for vertical scrollbar*/
+            height: 3px;
+            /*for horizontal scrollbar*/
+        }
+        /* Track */
+        
+         ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            margin: 90px 0;
+        }
+        /* Handle */
+        
+         ::-webkit-scrollbar-thumb {
+            background: #888;
+        }
+        /* Handle on hover */
+        
+         ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+</head>
+
+<body>
+    <div class="jumbotron jumbotron-fluid bg-warning text-black text-center">
+        <div class="container">
+            {% load static %}
+            <!-- <img src="{% static "publish\ves-logo.png" %}" class="float-left" alt="My image"> -->
+            <img src='https://lh3.googleusercontent.com/NV3GMIm7Wq6VTQtWc19z3zrYmT3lMEDlzXH-RtkVwKyExLriveE-x6g1UsXXRuiru6Q' class="float-left" alt="VesitLogo" height=150px width=150px>
+            <h1 class="display-4">VGuru Publications</h1>
+            <p class="lead">
+                INST Department
+            </p>
+        </div>
+    </div>
+    {% comment %} filter+button UI {% endcomment %} {% if res %}
+    <div class="container">
+        <br />
+        <p>
+            SELECT A YEAR : {% for year in years %}
+            <a href="/inst/{{year}}">{{ year }}</a> | {% endfor %}
+        </p>
+        <br>
+        <!-- Dropdown -->
+        <div class="dropdown">
+            <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Choose Category
+                </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                {% for category in categories %}
+                <a class="dropdown-item" href="#{{ category | upper }}">{{ category }}</a> {% endfor %}
+            </div>
+            <a href="inst/admin/" target="_blank" class="btn btn-info float-right">Update</a>
+        </div>
+
+        <hr style="border-color:white"> {% for key, value in articles.items %}
+        <div id="myDIV">
+            <div>
+                <div class="alert alert-warning">
+                    <center>
+                        <h2 class="alert-heading" id="{{ key | upper }}">{{ key | upper }}</h2>
+                    </center>
+                    <hr style="border-color:black;"> {% for paper in value %}
+                    <p class="text-justify" id='{{ paper.publish_date|date:"Y" }}'>
+                        {{ paper.name }}
+                        <br> Author: -<b>{{ paper.author }}</b>
+                        <p>Published On :<b> {{ paper.publish_date|date:"D, dS M,  Y" }}</b></p>
+                        <a href="{{ paper.article_link }}" class="alert-link"><i class="material-icons">launch</i></a>
+                    </p>
+                    <hr style="opacity:0.7;border-color:black;"> {% endfor %}
+                </div>
+            </div>
+            <hr style="border-color:white">
+        </div>
+        {% endfor %} {% else %}
+        <div class="alert alert-danger" role="alert">
+            No results found!
+        </div>
+        {% endif %}
+</body>
+
+</html>
